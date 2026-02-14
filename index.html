@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentines Day</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-background {
+      background: rgb(255, 208, 229);
+      background: linear-gradient(180deg, rgba(255, 208, 229, 1) 0%, rgba(255, 232, 242, 1) 36%, rgba(255, 255, 255, 1) 100%);
+    }
+
+    .bounce2 {
+      animation: bounce2 2s ease infinite;
+    }
+
+    @keyframes bounce2 {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-20px);
+      }
+      60% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body class="gradient-background">
+  <div class="flex items-center justify-center h-screen">
+    <div class="flex flex-col items-center p-4">
+      <img id="mainImage" src="./images/image1.gif" alt="Cute kitten with flowers" class="rounded-md h-[300px]" style="object-fit: cover;" />
+      <h2 id="mainPrompt" class="text-4xl font-bold italic text-[#bd1e59] my-4">Sarah will you be my Valentine?</h2>
+      <div class="flex gap-4 pt-[20px] items-center" id="buttonGroup">
+        <button id="acceptBtn"
+          class="bounce2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium disabled:pointer-events-none disabled:opacity-50 hover:bg-green-400 min-h-12 min-w-[75px] px-4 py-2 bg-green-500 text-white transition">
+          Yes
+        </button>
+        <button id="declineBtn"
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium transition disabled:pointer-events-none disabled:opacity-50 hover:bg-red-700 h-12 min-w-[75px] w-auto px-4 py-2 bg-red-500 text-white">
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import confettiEffect from 'https://cdn.skypack.dev/canvas-confetti';
+
+    const acceptBtn = document.getElementById('acceptBtn');
+    const declineBtn = document.getElementById('declineBtn');
+    const mainImage = document.getElementById('mainImage');
+    const mainPrompt = document.getElementById('mainPrompt');
+    const buttonGroup = document.getElementById('buttonGroup');
+
+    let declineClicks = 0;
+    let currentHeight = 48;
+    let currentWidth = 80;
+    let currentFontSize = 20;
+
+    const gifList = [
+      "./images/image1.gif",
+      "./images/image2.gif",
+      "./images/image3.gif",
+      "./images/image4.gif",
+      "./images/image5.gif",
+      "./images/image6.gif",
+      "./images/image7.gif"
+    ];
+
+    declineBtn.addEventListener('click', function() {
+      if (declineClicks < 5) {
+        declineClicks++;
+
+        mainImage.src = gifList[declineClicks];
+
+        currentHeight += 35;
+        currentWidth += 35;
+        currentFontSize += 25;
+
+        acceptBtn.style.height = `${currentHeight}px`;
+        acceptBtn.style.width = `${currentWidth}px`;
+        acceptBtn.style.fontSize = `${currentFontSize}px`;
+
+        if (declineClicks < 6) {
+          declineBtn.textContent = [
+            "No",
+            "Are you sure?",
+            "Pookie please",
+            "Don't do this to me :(",
+            "You're breaking my heart",
+            "I'm gonna cry..."
+          ][declineClicks];
+        }
+      }
+    });
+
+    acceptBtn.addEventListener('click', () => {
+      mainImage.src = "./images/image7.gif";
+      mainPrompt.textContent = "Yayyy!! :3";
+      buttonGroup.style.display = "none";
+      confettiEffect();
+    });
+  </script>
+</body>
+</html>
